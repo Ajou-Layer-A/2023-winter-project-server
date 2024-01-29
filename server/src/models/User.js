@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../config/index');
 const bcrypt = require('bcrypt');
+const { getKorDate } = require('../utils/common');
 
 const userSchema = new mongoose.Schema({
   user_type: {

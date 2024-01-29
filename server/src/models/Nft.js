@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { getKorDate } = require('../utils/common');
 
 const nftSchema = new mongoose.Schema({
   token_id: {
