@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    default: '',
   },
   created_at: {
     // 사용자 생성일
