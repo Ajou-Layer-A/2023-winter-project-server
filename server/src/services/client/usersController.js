@@ -1,4 +1,4 @@
-const UserModel = require('../../models/user');
+const UserModel = require("../../models/user");
 
 // 사용자 회원가입 시 필요한 것들
 /**
@@ -6,12 +6,12 @@ const UserModel = require('../../models/user');
  * @returns 성공여부
  */
 const checkNickName = async (nickName) => {
-  try {
-    const result = await UserModel.findOne({ nickname: nickName });
-  } catch (err) {
-    console.error(err);
-    throw Error(err);
-  }
+    try {
+        const result = await UserModel.findOne({ nickname: nickName });
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
 };
 
 /**
@@ -19,22 +19,22 @@ const checkNickName = async (nickName) => {
  * @returns 성공여부
  */
 const saveUserData = async (userData) => {
-  try {
-    const result = await UserModel.create(userData);
-    if (!result) {
-      return {
-        success: false,
-        message: '사용자 정보 저장에 실패했습니다.',
-      };
+    try {
+        const result = await UserModel.create(userData);
+        if (!result) {
+            return {
+                success: false,
+                message: "사용자 정보 저장에 실패했습니다.",
+            };
+        }
+        return {
+            success: true,
+            data: result,
+        };
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
     }
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (err) {
-    console.error(err);
-    throw Error(err);
-  }
 };
 
 /**
@@ -44,25 +44,25 @@ const saveUserData = async (userData) => {
  * @returns 성공 여부
  */
 const saveUserWalletAddress = async (nickName, address) => {
-  try {
-    const result = await UserModel.findOneAndUpdate(
-      { nickname: nickName },
-      { address: address }
-    );
-    if (!result) {
-      return {
-        success: false,
-        message: '사용자 정보 저장에 실패했습니다.',
-      };
+    try {
+        const result = await UserModel.findOneAndUpdate(
+            { nickname: nickName },
+            { address: address }
+        );
+        if (!result) {
+            return {
+                success: false,
+                message: "사용자 정보 저장에 실패했습니다.",
+            };
+        }
+        return {
+            success: true,
+            data: result,
+        };
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
     }
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (err) {
-    console.error(err);
-    throw Error(err);
-  }
 };
 
 /**
@@ -71,27 +71,27 @@ const saveUserWalletAddress = async (nickName, address) => {
  * @returns 사용자 정보
  */
 const getUserInfo = async (nickName) => {
-  try {
-    const result = await UserModel.findOne({ nickname: nickName });
-    if (!result) {
-      return {
-        success: false,
-        message: '사용자 정보 조회에 실패했습니다.',
-      };
+    try {
+        const result = await UserModel.findOne({ nickname: nickName });
+        if (!result) {
+            return {
+                success: false,
+                message: "사용자 정보 조회에 실패했습니다.",
+            };
+        }
+        return {
+            success: true,
+            data: result,
+        };
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
     }
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (err) {
-    console.error(err);
-    throw Error(err);
-  }
 };
 
 module.exports = {
-  checkNickName,
-  saveUserData,
-  saveUserWalletAddress,
-  getUserInfo,
+    checkNickName,
+    saveUserData,
+    saveUserWalletAddress,
+    getUserInfo,
 };
