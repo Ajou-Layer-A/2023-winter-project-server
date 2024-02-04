@@ -8,7 +8,7 @@ const config = require("../../config/index.js");
  * @returns result
  */
 const verifyToken = (req, res, next) => {
-    const accessToken = req.cookies.accessToken;
+    const accessToken = req.cookies.clientAccessToken;
     if (!accessToken) {
         return res.status(401).json({
             success: false,

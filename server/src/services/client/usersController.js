@@ -1,10 +1,27 @@
 const UserModel = require("../../models/user");
-
+const config = require("../../config/index");
 // 사용자 회원가입 시 필요한 것들
 /**
  * @param {string} nickName
  * @returns 성공여부
  */
+
+const setClientTokenCookie = async (res, accessToken, refreshToken) => {
+    // access token을 쿠키에 저장
+    res.cookie("clientAccessToken", accessToken);
+    // refresh token을 쿠키에 저장
+    res.cookie("clientRefreshToken", refreshToken);
+    if (!res.cookie) {
+        return {
+            success: false,
+            message: "Saving cookie fault",
+        };
+    }
+    return {
+        success: true,
+    };
+};
+
 const checkNickName = async (nickName) => {
     try {
         const result = await UserModel.findOne({ nickname: nickName });
@@ -94,4 +111,5 @@ module.exports = {
     saveUserData,
     saveUserWalletAddress,
     getUserInfo,
+    setClientTokenCookie,
 };

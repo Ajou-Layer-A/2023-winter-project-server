@@ -1,7 +1,11 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/index.js");
 const UserModels = require("../models/user.js");
-
+const secureOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Lax",
+};
 module.exports = {
     /**
      * @param {string} nickname
@@ -13,13 +17,18 @@ module.exports = {
             user_id: user_id,
         };
 
-        return jwt.sign(payload, config.jwt.jwtSecret, {
-            expiresIn: "15m", //만료시간
-            algorithm: "HS256", //암호화 알고리즘
-            issuer: config.jwt.isu, //발행자
-            audience: config.jwt.aud, //발행 대상
-            //isAdmin: false,
-        });
+        return jwt.sign(
+            payload,
+            config.jwt.jwtSecret,
+            {
+                expiresIn: "15m", //만료시간
+                algorithm: "HS256", //암호화 알고리즘
+                issuer: config.jwt.isu, //발행자
+                audience: config.jwt.aud, //발행 대상
+                //isAdmin: false,
+            },
+            secureOptions
+        );
     },
 
     /**
@@ -32,13 +41,18 @@ module.exports = {
             user_id: user_id,
         };
 
-        return jwt.sign(payload, config.jwt.jwtRefreshSecret, {
-            expiresIn: "7d",
-            algorithm: "HS256",
-            issuer: config.jwt.isu,
-            audience: config.jwt.aud,
-            subject: "auth",
-        });
+        return jwt.sign(
+            payload,
+            config.jwt.jwtRefreshSecret,
+            {
+                expiresIn: "7d",
+                algorithm: "HS256",
+                issuer: config.jwt.isu,
+                audience: config.jwt.aud,
+                subject: "auth",
+            },
+            secureOptions
+        );
     },
 
     /**
