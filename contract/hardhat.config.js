@@ -5,7 +5,7 @@ require('dotenv').config();
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: {
-    version: '0.8.19',
+    version: '0.8.20',
     settings: {
       optimizer: {
         enabled: true,
@@ -19,10 +19,10 @@ module.exports = {
   },
 
   networks: {
-    local: {
-      url: 'http://localhost:8545',
-      accounts: [process.env.LOCAL_PRIVATE_KEY],
-    },
+    // local: {
+    //   url: 'http://localhost:8545',
+    //   accounts: [process.env.LOCAL_PRIVATE_KEY],
+    // },
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
       accounts: [process.env.MUMBAI_PRIVATE_KEY],
