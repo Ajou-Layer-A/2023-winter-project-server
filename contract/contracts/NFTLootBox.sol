@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-import "./interfaces/INFTLootBox.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NFTLootBox is ERC721URIStorage, Ownable {
     uint256 private _tokenIds;
 
     mapping(address => uint256[]) private _ownedTokens;
 
-    constructor() ERC721("Layer-A-winter-dev-study", "Layer-A") Ownable(msg.sender){}
+    constructor() ERC721("Layer-A-winter-dev-study", "Layer-A") Ownable(msg.sender) {}
 
     //mint: create a new token
     // mint는 본인이 만약 주소를 잘못 적었을 경우에는 NFT가 소각될 수 있음.
@@ -19,7 +18,6 @@ contract NFTLootBox is ERC721URIStorage, Ownable {
         _tokenIds++;
         _mint(to, _tokenIds);
         _setTokenURI(_tokenIds, tokenURI);
-        emit Mint(to, tokenURI);
         return _tokenIds;
     }
 
@@ -30,13 +28,11 @@ contract NFTLootBox is ERC721URIStorage, Ownable {
 
     // 만약 받는 사람이 NFT를 받을 수 없는 계정이라면 NFT가 소각됨. TransferFrom을 사용하면 예방가능.
     function transfer(address to, uint256 tokenId) public {
-        emit Transfer(msg.sender, to, tokenId);
         safeTransferFrom(msg.sender, to, tokenId);
     }
 
     // NFT 소각
     function burn(uint256 tokenId) public {
-        emit Burn(tokenId);
         _burn(tokenId);
     }
 
