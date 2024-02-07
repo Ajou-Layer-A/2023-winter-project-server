@@ -5,4 +5,3 @@ start:
 deploy_contract:
 	@echo "Deploying contract..."
 	cd contract && npx hardhat run scripts/deploy.js --network $(network)
-

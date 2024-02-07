@@ -171,3 +171,5 @@ route.post('/connectWallet', isAuth, async (req, res) => {
     });
   }
 });
+
+// Refresh
