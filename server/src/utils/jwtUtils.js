@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/index.js");
-const UserModels = require("../models/user.js");
 const secureOptions = {
     httpOnly: true,
     secure: true,
