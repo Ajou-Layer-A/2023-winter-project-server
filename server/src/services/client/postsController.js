@@ -2,6 +2,26 @@ const postModel = require("../../models/Post");
 const config = require("../../config/index");
 
 /**
+ * post delete
+ * @param post_id
+ * @returns 성공여부
+ */
+const deletePost = async (postId) => {
+    try {
+        const result = await postModel.deleteOne({ _id: postId });
+        if (!result) {
+            return { success: false };
+        } else {
+            return { success: true };
+        }
+    } catch (err) {
+        console.error("Error:" + err);
+        throw Error(err);
+    }
+};
+
+/**
+ * post create
  * @param user_id
  * @param postData
  * @returns 성공여부
@@ -34,6 +54,7 @@ const savePostData = async (id, postData) => {
 
 module.exports = {
     savePostData,
+    deletePost,
 };
 
 // Refresh
