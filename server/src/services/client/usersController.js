@@ -1,5 +1,5 @@
-const UserModel = require('../../models/user');
-const config = require('../../config/index');
+const UserModel = require("../../models/User");
+const config = require("../../config/index");
 // 사용자 회원가입 시 필요한 것들
 /**
  * @param {string} nickName
@@ -7,28 +7,28 @@ const config = require('../../config/index');
  */
 
 const setClientTokenCookie = async (res, accessToken, refreshToken) => {
-  // access token을 쿠키에 저장
-  res.cookie('clientAccessToken', accessToken);
-  // refresh token을 쿠키에 저장
-  res.cookie('clientRefreshToken', refreshToken);
-  if (!res.cookie) {
+    // access token을 쿠키에 저장
+    res.cookie("clientAccessToken", accessToken);
+    // refresh token을 쿠키에 저장
+    res.cookie("clientRefreshToken", refreshToken);
+    if (!res.cookie) {
+        return {
+            success: false,
+            message: "Saving cookie fault",
+        };
+    }
     return {
-      success: false,
-      message: 'Saving cookie fault',
+        success: true,
     };
-  }
-  return {
-    success: true,
-  };
 };
 
 const checkNickName = async (nickName) => {
-  try {
-    const result = await UserModel.findOne({ nickname: nickName });
-  } catch (err) {
-    console.error(err);
-    throw Error(err);
-  }
+    try {
+        const result = await UserModel.findOne({ nickname: nickName });
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
 };
 
 /**
@@ -36,28 +36,28 @@ const checkNickName = async (nickName) => {
  * @returns 성공여부
  */
 const saveUserData = async (userData) => {
-  try {
-    const saveUserData = new UserModel({
-      nickname: userData.nickname,
-      hashed_pw: userData.password,
-      address: userData.address,
-    });
+    try {
+        const saveUserData = new UserModel({
+            nickname: userData.nickname,
+            hashed_pw: userData.password,
+            address: userData.address,
+        });
 
-    const result = await saveUserData.save();
-    if (!result) {
-      return {
-        success: false,
-        message: '사용자 정보 저장에 실패했습니다.',
-      };
+        const result = await saveUserData.save();
+        if (!result) {
+            return {
+                success: false,
+                message: "사용자 정보 저장에 실패했습니다.",
+            };
+        }
+        return {
+            success: true,
+            data: result,
+        };
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
     }
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (err) {
-    console.error(err);
-    throw Error(err);
-  }
 };
 
 /**
@@ -67,25 +67,25 @@ const saveUserData = async (userData) => {
  * @returns 성공 여부
  */
 const saveUserWalletAddress = async (nickName, address) => {
-  try {
-    const result = await UserModel.findOneAndUpdate(
-      { nickname: nickName },
-      { address: address }
-    );
-    if (!result) {
-      return {
-        success: false,
-        message: '사용자 정보 저장에 실패했습니다.',
-      };
+    try {
+        const result = await UserModel.findOneAndUpdate(
+            { nickname: nickName },
+            { address: address }
+        );
+        if (!result) {
+            return {
+                success: false,
+                message: "사용자 정보 저장에 실패했습니다.",
+            };
+        }
+        return {
+            success: true,
+            data: result,
+        };
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
     }
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (err) {
-    console.error(err);
-    throw Error(err);
-  }
 };
 
 /**
@@ -94,30 +94,30 @@ const saveUserWalletAddress = async (nickName, address) => {
  * @returns 사용자 정보
  */
 const getUserInfo = async (nickName) => {
-  try {
-    const result = await UserModel.findOne({ nickname: nickName });
-    if (!result) {
-      return {
-        success: false,
-        message: '사용자 정보 조회에 실패했습니다.',
-      };
+    try {
+        const result = await UserModel.findOne({ nickname: nickName });
+        if (!result) {
+            return {
+                success: false,
+                message: "사용자 정보 조회에 실패했습니다.",
+            };
+        }
+        return {
+            success: true,
+            data: result,
+        };
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
     }
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (err) {
-    console.error(err);
-    throw Error(err);
-  }
 };
 
 module.exports = {
-  checkNickName,
-  saveUserData,
-  saveUserWalletAddress,
-  getUserInfo,
-  setClientTokenCookie,
+    checkNickName,
+    saveUserData,
+    saveUserWalletAddress,
+    getUserInfo,
+    setClientTokenCookie,
 };
 
 // Refresh
