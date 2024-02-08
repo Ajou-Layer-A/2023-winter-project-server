@@ -4,8 +4,10 @@ pragma solidity ^0.8.19;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract NFTLootBox is ERC721URIStorage, Ownable {
+contract NFTLootBox is ERC721URIStorage, Ownable, AccessControl {
     uint256 private _tokenIds;
 
     mapping(address => uint256[]) private _ownedTokens;
@@ -28,6 +30,7 @@ contract NFTLootBox is ERC721URIStorage, Ownable {
 
     // 만약 받는 사람이 NFT를 받을 수 없는 계정이라면 NFT가 소각됨. TransferFrom을 사용하면 예방가능.
     function transfer(address to, uint256 tokenId) public {
+        require(_isApprovedOrOwner(msg.sender, tokenId), "ERC721: transfer caller is not owner nor approved");
         safeTransferFrom(msg.sender, to, tokenId);
     }
 
@@ -40,6 +43,7 @@ contract NFTLootBox is ERC721URIStorage, Ownable {
     function getOwnedTokens(address owner) public view returns (uint256[] memory) {
         return _ownedTokens[owner];
     }
+
 
     // NFT 구매로직
     // 마켓에 NFT 등록: 제 3자에게 권한 부여(서버 지갑에 사용자 NFT 권한 등록)
